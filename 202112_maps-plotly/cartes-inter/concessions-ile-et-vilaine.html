@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Prix moyen des concessions dans les communes du Ile et Vilaines</title>
+        <style>
+            @font-face {
+                font-family: "Open Sans";
+                src: url("open-sans.woff") format("woff");
+            }
+            body {
+                font-family: "Open Sans";
+            }
+            form {
+                display: flex;
+                align-items: flex-end;
+                flex-direction: column;
+                margin: 5vh 5vw 0 0;
+            }
+            label {
+                margin-bottom: 10px;
+            }
+            object {
+                height: 85vh;
+                width: 95vw;
+            }
+        </style>
+    </head>
+    <body>
+        <form>
+            <label>Durée des concessions :</label>
+            <div>
+                <!-- je donne le même id que le nom de la carte associée (sans le .html) à chacun des choix de la liste à puces (par ex l'id 15y-concessions-var pour faire référence au fichier 15y-concessions-var.html) -->
+                <input name="duree_concessions" id="15y-concessions-communes-35-ille-et-vilaine" type="radio" checked/>
+                <label for="15y">15 ans</label>
+                <input name="duree_concessions" id="30y-concessions-communes-35-ille-et-vilaine" type="radio"/>
+                <label for="30y">30 ans</label>
+                <input name="duree_concessions" id="50y-concessions-communes-35-ille-et-vilaine" type="radio"/>
+                <label for="50y">50 ans</label>
+            </div>
+        </form>
+        <!-- je crée une div vide qui va servir de conteneur pour afficher la carte sélectionnée -->
+        <div id="map-container"></div>
+        <script type="text/javascript">
+            // j'affiche la 1ère des trois cartes par défaut lorsque la page charge
+            document.getElementById('map-container').innerHTML = '<object data="15y-concessions-var.html">'
+            // je récupère chaque option de la liste à puces
+            const options = document.querySelectorAll('input[name="duree_concessions"]')
+            // pour chaque option
+            options.forEach(option => {
+                // lorsqu'on clique sur une des options
+                option.addEventListener('click', () => {
+                    // je récupère le nom du fichier associé à l'option cliquée grâce à l'id défini plus tôt
+                    let fileName = option.id + ".html"
+                    // j'insère la carte associée dans le conteneur 
+                    document.getElementById('map-container').innerHTML = '<object data="' + fileName + '">'
+                })
+            })
+        </script>
+    </body>
+</html>
