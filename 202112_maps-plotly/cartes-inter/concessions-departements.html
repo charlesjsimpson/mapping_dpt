@@ -22,7 +22,15 @@
             label {
                 margin-bottom: 10px;
             }
-            object {
+            #idf-container {
+                position: absolute;
+                top: 200px;
+            }
+            #idf-container, #idf-container > object {
+                height: 450px;
+                width: 450px;
+            }
+            #map-container > object {
                 height: 85vh;
                 width: 95vw;
             }
@@ -42,9 +50,11 @@
             </div>
         </form>
         <!-- je crée une div vide qui va servir de conteneur pour afficher la carte sélectionnée -->
+        <div id="idf-container"></div>
         <div id="map-container"></div>
         <script type="text/javascript">
-            // j'affiche la 1ère des trois cartes par défaut lorsque la page charge
+            // j'affiche la 1ère des trois cartes par défaut lorsque la page charge (pour l'IDF + la France)
+            document.getElementById('idf-container').innerHTML = '<object data="15y-concessions-idf.html">'
             document.getElementById('map-container').innerHTML = '<object data="15y-concessions-departements.html">'
             // je récupère chaque option de la liste à puces
             const options = document.querySelectorAll('input[name="duree_concessions"]')
@@ -52,10 +62,13 @@
             options.forEach(option => {
                 // lorsqu'on clique sur une des options
                 option.addEventListener('click', () => {
-                    // je récupère le nom du fichier associé à l'option cliquée grâce à l'id défini plus tôt
-                    let fileName = option.id + ".html"
-                    // j'insère la carte associée dans le conteneur 
-                    document.getElementById('map-container').innerHTML = '<object data="' + fileName + '">'
+                    // je récupère le nom de la carte IDF associée à l'option cliquée
+                    const idfFileName = option.id[0] + option.id[1] + "y-concessions-idf.html"
+                    // je récupère le nom de la carte de France associée à l'option cliquée grâce à l'id défini plus tôt
+                    const franceFileName = option.id + ".html"
+                    // j'insère les cartes associées dans leurs conteneurs
+                    document.getElementById('idf-container').innerHTML = '<object data="' + idfFileName + '"></object>'
+                    document.getElementById('map-container').innerHTML = '<object data="' + franceFileName + '"></object>'
                 })
             })
         </script>

@@ -1,5 +1,0 @@
-.ipynb_checkpoints
-.DS_Store
-
-# on garde les csv uniquement en local
-*.csv
