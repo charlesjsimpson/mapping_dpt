@@ -34,6 +34,12 @@
                 height: 85vh;
                 width: 95vw;
             }
+            @media screen and (max-width: 1570px) {
+                #idf-container {
+                    position: static;
+                    margin: -67.5px auto;
+                }
+            }
         </style>
     </head>
     <body>
@@ -50,8 +56,8 @@
             </div>
         </form>
         <!-- je crée une div vide qui va servir de conteneur pour afficher la carte sélectionnée -->
-        <div id="idf-container"></div>
         <div id="map-container"></div>
+        <div id="idf-container"></div>
         <script type="text/javascript">
             // j'affiche la 1ère des trois cartes par défaut lorsque la page charge (pour l'IDF + la France)
             document.getElementById('idf-container').innerHTML = '<object data="15y-concessions-idf.html">'
