@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Prix moyen des concessions</title>
+        <style>
+            @font-face {
+                font-family: "Open Sans";
+                src: url("open-sans.woff") format("woff");
+            }
+            body {
+                font-family: "Open Sans";
+            }
+            form {
+                display: flex;
+                justify-content: flex-end;
+                margin: 5vh 5vw 0 0;
+            }
+            form>div:first-child {
+                margin-right: 50px;
+                display: flex;
+                flex-direction: column;
+            }
+            form>div:nth-child(2)>label {
+                margin-bottom: 10px;
+            }
+            object {
+                height: 85vh;
+                width: 95vw;
+            }
+        </style>
+    </head>
+    <body>
+        <form>
+            <div>
+                <label for="menu">Département :</label>
+                <select id="menu">
+                    <!-- Je liste les départements que je veux intégrer au menu déroulant -->
+                    <option value="var">Var</option>
+                    <option value="bouches-du-rhone">Bouches-du-Rhône</option>
+                    <option value="Ille-et-Vilaine">Ille-et-Vilaine</option>
+                    <option value="cote-d-or">Côte-d-Or</option>
+                    <option value="aisne">Aisne</option>
+                    <option value="alpes-maritimes">Alpes-Maritimes</option>
+                </select>
+            </div>
+            <div>
+                <label>Durée des concessions :</label>
+                <div>
+                    <!-- Je donne l'id associé à chaque agrégat -->
+                    <input name="duree_concessions" id="15y" type="radio" checked/>
+                    <label for="15y">15 ans</label>
+                    <input name="duree_concessions" id="30y" type="radio"/>
+                    <label for="30y">30 ans</label>
+                    <input name="duree_concessions" id="50y" type="radio"/>
+                    <label for="50y">50 ans</label>
+                </div>
+            </div>
+        </form>
+        <!-- je crée une div vide qui va servir de conteneur pour la carte à afficher -->
+        <div id="map-container"></div>
+        <script type="text/javascript">
+            // je récupère le conteneur de la carte à afficher
+            const container = document.getElementById('map-container')
+            // je récupère le menu déroulant
+            const select = document.getElementById('menu')
+
+            // j'affiche la 1ère des trois cartes du 1er département par défaut lorsque la page charge (département du Var sur 15 ans)
+            container.innerHTML = '<object data="15y-concessions-var.html">'
+            
+            // je définis la fonction qui affiche la bonne carte selon l'agrégat et le département sélectionnés
+            const changeMap = () => {
+                // je récupère l'id de l'agrégat sélectionné
+                const selectedAggr = document.querySelector('input[name="duree_concessions"]:checked').id
+                // je récupère le département sélectionné
+                const selectedDpt = select.options[select.selectedIndex].value
+                // je définis le nom du fichier de la carte à afficher
+                const fileName = selectedAggr + "-concessions-" + selectedDpt + ".html"
+                // j'insère la carte dans le conteneur
+                container.innerHTML = '<object data="' + fileName + '">'
+            }
+
+            // lorsqu'on change d'option dans le menu déroulant, on éxécute la fonction de changement de carte
+            select.addEventListener('change', () => changeMap())
+            
+            // je récupère chaque option de la liste à puces
+            const options = document.querySelectorAll('input[name="duree_concessions"]')
+            // pour chaque option
+            options.forEach(option => {
+                // lorsqu'on clique sur une des options, on éxécute la fonction de changement de carte
+                option.addEventListener('click', () => changeMap())
+            })
+        </script>
+    </body>
+</html>
