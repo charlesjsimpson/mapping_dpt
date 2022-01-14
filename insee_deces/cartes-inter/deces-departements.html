@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Prix moyen des concessions dans les départements de France</title>
+        <style>
+            @font-face {
+                font-family: "Open Sans";
+                src: url("open-sans.woff") format("woff");
+            }
+            body {
+                font-family: "Open Sans";
+            }
+            form {
+                display: flex;
+                align-items: flex-end;
+                flex-direction: column;
+                margin: 5vh 5vw 0 0;
+            }
+            label {
+                margin-bottom: 10px;
+            }
+            #idf-container {
+                position: absolute;
+                top: 200px;
+            }
+            #idf-container, #idf-container > object {
+                height: 450px;
+                width: 450px;
+            }
+            #map-container > object {
+                height: 85vh;
+                width: 95vw;
+            }
+            @media screen and (max-width: 1570px) {
+                #idf-container {
+                    position: static;
+                    margin: -67.5px auto;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <form>
+            <label>Année :</label>
+            <div>
+                <!-- Je donne l'id associé à chaque agrégat -->
+                <input name="annee" id="2000" type="radio" checked/>
+                <label for="2000">2000</label>
+                <input name="annee" id="2010" type="radio"/>
+                <label for="2010">2010</label>
+                <input name="annee" id="2020" type="radio"/>
+                <label for="2020">2020</label>
+                <input name="annee" id="2021" type="radio"/>
+                <label for="2021">2021</label>
+                <input name="annee" id="2020-2021" type="radio"/>
+                <label for="2020-2021">entre 2020 et 2021</label>
+            </div>
+        </form>
+        <!-- je crée une div vide qui va servir de conteneur pour afficher la carte sélectionnée -->
+        <div id="map-container"></div>
+        <div id="idf-container"></div>
+        <script type="text/javascript">
+            // j'affiche la 1ère des trois cartes par défaut lorsque la page charge (pour l'IDF + la France)
+            document.getElementById('idf-container').innerHTML = '<object data="2000-deces-idf.html">'
+            document.getElementById('map-container').innerHTML = '<object data="2000-deces-departements.html">'
+            // je récupère chaque option de la liste à puces
+            const options = document.querySelectorAll('input[name="annee"]')
+            // pour chaque option
+            options.forEach(option => {
+                // lorsqu'on clique sur une des options
+                option.addEventListener('click', () => {
+                    // je récupère le nom de la carte IDF associée à l'option cliquée
+                    const idfFileName = option.id + "-deces-idf.html"
+                    // je récupère le nom de la carte de France associée à l'option cliquée grâce à l'id défini plus tôt
+                    const franceFileName = option.id + "-deces-departements.html"
+                    // j'insère les cartes associées dans leurs conteneurs
+                    document.getElementById('idf-container').innerHTML = '<object data="' + idfFileName + '"></object>'
+                    document.getElementById('map-container').innerHTML = '<object data="' + franceFileName + '"></object>'
+                })
+            })
+        </script>
+    </body>
+</html>
