@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Prix moyen des concessions</title>
+        <style>
+            @font-face {
+                font-family: "Open Sans";
+                src: url("open-sans.woff") format("woff");
+            }
+            body {
+                font-family: "Open Sans";
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                margin: 5vh 5vw 0 0;
+            }
+            form>label{
+                margin-bottom: 10px;
+            }
+            object {
+                height: 85vh;
+                width: 95vw;
+            }
+        </style>
+    </head>
+    <body>
+        <form>
+                <label>Année :</label>
+                <div>
+                    <!-- Je donne l'id associé à chaque agrégat -->
+                    <input name="annee" id="2000" type="radio" checked/>
+                    <label for="2000">2000</label>
+                    <input name="annee" id="2010" type="radio"/>
+                    <label for="2010">2010</label>
+                    <input name="annee" id="2020" type="radio"/>
+                    <label for="2020">2020</label>
+                    <input name="annee" id="2021" type="radio"/>
+                    <label for="2021">2021</label>
+                </div>
+            </div>
+        </form>
+        <!-- je crée une div vide qui va servir de conteneur pour la carte à afficher -->
+        <div id="map-container"></div>
+        <script type="text/javascript">
+            // je récupère le conteneur de la carte à afficher
+            const container = document.getElementById('map-container')
+
+            // j'affiche la 1ère des trois cartes du 1er agrégat par défaut lorsque la page charge (nombre de décès en 2020)
+            container.innerHTML = '<object data="2021-deces-alpes-martime.html">'
+            
+            // je définis la fonction qui affiche la bonne carte selon l'agrégat et le département sélectionnés
+            const changeMap = () => {
+                // je récupère l'id de l'agrégat sélectionné
+                const selectedAggr = document.querySelector('input[name="annee"]:checked').id
+                // je définis le nom du fichier de la carte à afficher
+                let fileName = selectedAggr + "-deces-alpes-martime" + ".html"
+                // si l'agrégat sélectionné est db_2021_dpt_alpes-martime, on ajuste le path
+                if (selectedAggr === 'db_2021_dpt_alpes-martime') {
+                    console.log('ok')
+                    fileName = 'db_2021_dpt_alpes-martime-departements.html'
+                }
+                // j'insère la carte dans le conteneur
+                container.innerHTML = '<object data="' + fileName + '">'
+            }
+
+            // je récupère chaque option de la liste à puces
+            const options = document.querySelectorAll('input[name="annee"]')
+            // pour chaque option
+            options.forEach(option => {
+                // lorsqu'on clique sur une des options, on éxécute la fonction de changement de carte
+                option.addEventListener('click', () => changeMap())
+            })
+        </script>
+    </body>
+</html>
